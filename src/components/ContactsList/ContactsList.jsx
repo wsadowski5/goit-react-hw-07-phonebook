@@ -1,36 +1,51 @@
+import { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { getContacts, getFilter } from 'components/Redux/selectors';
-
-import { deleteContact } from 'components/Redux/contactsSlice';
+import { selectContacts, selectFilter } from 'components/Redux/selectors';
+import { fetchContacts, deleteContact } from 'components/Redux/operations';
 
 import css from './ContactsList.module.css';
 
-export const ContactsList = contact => {
+export const ContactsList = () => {
+  const { contacts, isLoading, error } = useSelector(selectContacts);
   const dispatch = useDispatch();
-  const contacts = useSelector(getContacts);
-  const filter = useSelector(getFilter).filter;
+
+  const filter = useSelector(selectFilter);
+console.log(filter)
+
+
+
 
   const filteredContacts = contacts.filter(contact =>
-    contact.name.toLowerCase().includes(filter.toLowerCase())
+
+    contact.name && contact.name.toLowerCase().includes(filter.toLowerCase())
   );
 
-  const handleDelete = (contact) => dispatch(deleteContact(contact.id))
+  useEffect(() => {
+    dispatch(fetchContacts());
+  }, [dispatch]);
 
+  const handleDelete = contact =>   dispatch(deleteContact(contact.id))
   return (
     <div className={css.contactListWrapper}>
-      <ul className={css.contactsList}>
-        {filteredContacts.map(contact => (
-          <li className={css.contactListItem} key={contact.id}>
-            {' '}
-            <span>
-              {contact.name}: {contact.number}{' '}
-            </span>
-            <button type="submit" onClick={() => handleDelete(contact)}>
-              Delete
-            </button>
-          </li>
-        ))}
-      </ul>
+      {error && <p>{error}</p>}
+
+      {isLoading ? (
+        <div>Loading contacts...</div>
+      ) : (
+        <ul className={css.contactsList}>
+          {filteredContacts.map(contact => (
+            <li className={css.contactListItem} key={contact.id}>
+              {' '}
+              <span>
+                {contact.name}: {contact.phone}{' '}
+              </span>
+              <button type="submit" onClick={() => handleDelete(contact)}>
+                Delete
+              </button>
+            </li>
+          ))}
+        </ul>
+      )}
     </div>
   );
 };

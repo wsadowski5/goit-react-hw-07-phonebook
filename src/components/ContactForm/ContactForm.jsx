@@ -1,23 +1,19 @@
 import css from './ContactForm.module.css';
 import { useState } from 'react';
-
 import { useDispatch } from 'react-redux';
-
-// import { addContact } from 'components/Redux/actions';
-import { addContact } from 'components/Redux/contactsSlice';
-
+import { addContact } from 'components/Redux/operations';
 import { v4 as uuidv4 } from 'uuid';
 
 export const ContactForm = () => {
   const [name, setName] = useState('');
-  const [number, setNumber] = useState('');
+  const [phone, setPhone] = useState('');
   const id = uuidv4();
   const dispatch = useDispatch();
 
   const handleSubmit = e => {
     e.preventDefault();
     const form = e.target;
-    dispatch(addContact({ id, name, number }));
+    dispatch(addContact({ id, name, phone }));
     form.reset();
   };
 
@@ -26,8 +22,8 @@ export const ContactForm = () => {
     setName(name);
   };
   const handleChangeNumber = e => {
-    const number = e.target.value;
-    setNumber(number);
+    const phone = e.target.value;
+    setPhone(phone);
   };
 
   return (
@@ -49,10 +45,10 @@ export const ContactForm = () => {
           <span>Number</span>
           <input
             type="tel"
-            name="number"
-            value={number}
+            name="phone"
+            value={phone}
             // pattern="\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}"
-            title="Phone number must be digits and can contain spaces, dashes, parentheses and can start with +"
+            title="Phone phone must be digits and can contain spaces, dashes, parentheses and can start with +"
             required
             onChange={handleChangeNumber}
           />

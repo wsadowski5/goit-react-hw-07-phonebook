@@ -1,6 +1,7 @@
 import { ContactsList } from './ContactsList/ContactsList';
 import { ContactForm } from './ContactForm/ContactForm';
 import { Filter } from './Filter/Filter';
+
 import css from './App.module.css';
 
 export const App = () => {
@@ -11,6 +12,7 @@ export const App = () => {
       <ContactForm />
       <h2>Contacts test</h2>
       <Filter />
+
       <ContactsList />
     </div>
   );
