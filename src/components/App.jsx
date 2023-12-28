@@ -9,7 +9,7 @@ export const App = () => {
       <h1 className={css.containerHeader}>Phonebook</h1>
       <h2>Add contact</h2>
       <ContactForm />
-      <h2>Contacts</h2>
+      <h2>Contacts test</h2>
       <Filter />
       <ContactsList />
     </div>
